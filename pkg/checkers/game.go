@@ -94,6 +94,22 @@ func (game *Game) Join(ws *gorilla.Conn) {
 
 	// listen for messages
 	client.Read()
+
+	game.Pool.Unregister <- client
+
+	if game.Player1 == client {
+		log.WithFields(log.Fields{
+			"gameID": game.GameID,
+		}).Debug("Player1 left.")
+		game.Player1 = nil
+	}
+
+	if game.Player2 == client {
+		log.WithFields(log.Fields{
+			"gameID": game.GameID,
+		}).Debug("Player2 left.")
+		game.Player2 = nil
+	}
 }
 
 // IsFull checks if the game is full
