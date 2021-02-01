@@ -1,6 +1,8 @@
 package checkers
 
 import (
+	"fmt"
+
 	"github.com/daburch/golang-game-server/pkg/websocket"
 	gorilla "github.com/gorilla/websocket"
 
@@ -105,6 +107,15 @@ func (game *Game) Start() {
 		"gameID": game.GameID,
 	}).Info("Starting game.")
 
+	assignColor(game.Player1, "white")
+	assignColor(game.Player2, "black")
+
 	// add the game to the active game queue
 	ActiveGames = append(ActiveGames, game)
+}
+
+func assignColor(player *websocket.Client, color string) {
+	p := fmt.Sprintf(`{ "action": "assignColor", "color": "%s" }`, color)
+	message := websocket.Message{Type: 1, Body: string(p)}
+	player.Conn.WriteJSON(message)
 }
