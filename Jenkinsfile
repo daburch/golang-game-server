@@ -1,4 +1,9 @@
 pipeline {
+  
+  environment {
+    imageName = daburch/golang-game-server
+    dockerImage = '' 
+  }  
 
   agent any
 
@@ -7,6 +12,14 @@ pipeline {
     stage('Checkout Source') {
       steps {
         git 'https://github.com/daburch/golang-game-server.git'
+      }
+    }
+    
+    stage('Build Image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
       }
     }
     
