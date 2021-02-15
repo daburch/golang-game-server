@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'golang' } }
+    agent { kubernetes { image 'golang' } }
 
     stages {
         stage('build') {
