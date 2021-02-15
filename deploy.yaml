@@ -29,10 +29,9 @@ metadata:
   name: golang-game-server
 spec:
   ports:
-  - nodePort: 32325
-    port: 3000
+  - port: 8080
     protocol: TCP
-    targetPort: 3000
+    targetPort: 8080
   selector:
     app: golang-game-server
-  type: NodePort
+  type: ClusterIP
