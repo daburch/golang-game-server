@@ -1,6 +1,7 @@
 pipeline {
   
   environment {
+    registry = '172.16.16.100:5000'
     imageName = 'daburch/golang-game-server'
     dockerImage = '' 
   }  
@@ -17,7 +18,9 @@ pipeline {
     
     stage('Build Image') {
       steps{
-        sh "docker build ."
+        script {
+          dockerImage = docker.build "$registry/$imageName:$BUILD_NUMBER"
+        }
       }
     }
     
