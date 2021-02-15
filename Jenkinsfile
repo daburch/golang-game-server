@@ -1,7 +1,7 @@
 pipeline {
   
   environment {
-    imageName = daburch/golang-game-server
+    imageName = 'daburch/golang-game-server'
     dockerImage = '' 
   }  
 
