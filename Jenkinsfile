@@ -1,11 +1,26 @@
 pipeline {
-    agent { docker { image 'golang' } }
 
-    stages {
-        stage('build') {
-            steps {
-                sh 'go version'
-            }
+  environment {
+    dockerImage = ""
+  }
+
+
+  agent any
+
+  stages {
+
+    stage('Checkout Source') {
+      steps {
+        git 'https://github.com/daburch/golang-game-server.git'
+      }
+    }
+
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          echo $dockerImage
         }
+      }
     }
 }
