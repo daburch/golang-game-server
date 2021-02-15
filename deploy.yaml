@@ -16,7 +16,7 @@ spec:
         app: golang-game-server
     spec:
       containers:
-      - image: 172.16.16.100:5000/daburch/golang-game-server:16
+      - image: 172.16.16.100:5000/daburch/golang-game-server:17
         imagePullPolicy: Always
         name: golang-game-server
 
