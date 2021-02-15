@@ -1,11 +1,10 @@
-pipeline {
-    agent { kubernetes { image 'golang' } }
-
-    stages {
-        stage('build') {
-            steps {
-                sh 'go version'
-            }
+node('default') {
+    stage('Checkout') {
+        checkout scm
+    }
+    stage('Build'){
+        container('go-agent') {
+            // This is where we build our code.
         }
     }
 }
