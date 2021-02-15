@@ -1,9 +1,5 @@
 pipeline {
 
-  environment {
-    dockerImage = ""
-  }
-
   agent any
 
   stages {
@@ -13,13 +9,6 @@ pipeline {
         git 'https://github.com/daburch/golang-game-server.git'
       }
     }
-
-    stage('Build image') {
-      steps{
-        script {
-          docker build .
-        }
-      }
-    }
+    
   }
 }
