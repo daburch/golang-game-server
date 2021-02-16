@@ -16,7 +16,7 @@ spec:
         app: golang-game-server
     spec:
       containers:
-      - image: 172.16.16.100:5000/daburch/golang-game-server:20
+      - image: 172.16.16.100:5000/daburch/golang-game-server:21
         imagePullPolicy: Always
         name: golang-game-server
         ports:
@@ -31,8 +31,10 @@ metadata:
   name: golang-game-server
 spec:
   ports:
-  - port: 8080
+  - nodePort: 32326
+    port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
     app: golang-game-server
+  type: NodePort
