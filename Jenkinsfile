@@ -25,6 +25,8 @@ pipeline {
     }
     
     stage ('Push Image') {
+      when { expression { return "$BRANCH_NAME" == "master" } }
+      
       steps {
         script {
           docker.withRegistry("") {
@@ -35,6 +37,8 @@ pipeline {
     }
     
     stage('Deploy App') {
+      when { expression { return "$BRANCH_NAME" == "master" } }
+      
       steps {
         script {
           kubernetesDeploy(configs: "deploy/deploy.yaml", kubeconfigId: "kconfig")
