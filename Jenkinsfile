@@ -12,7 +12,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git url: 'https://github.com/daburch/golang-game-server.git', branch: 'cicd-pipeline'
+        git url: 'https://github.com/daburch/golang-game-server.git', branch: "$BRANCH_NAME"
       }
     }
     
@@ -37,7 +37,7 @@ pipeline {
     stage('Deploy App') {
       steps {
         script {
-          kubernetesDeploy(configs: "deploy.yaml", kubeconfigId: "kconfig")
+          kubernetesDeploy(configs: "deploy/deploy.yaml", kubeconfigId: "kconfig")
         }
       }
     }    
