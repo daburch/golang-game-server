@@ -17,30 +17,41 @@ type Game struct {
 	Player2 *websocket.Client
 }
 
-var gameCounter = 0
+var (
+	gameCounter = 0
 
-// AvailableGames is the slice of games currently waiting for a second player
-var AvailableGames []*Game
+	// AvailableGames is the slice of games currently waiting for a second player
+	AvailableGames []*Game
 
-// ActiveGames is the slice of games currently being played
-var ActiveGames []*Game
+	// ActiveGames is the slice of games currently being played
+	ActiveGames []*Game
+)
 
-// GetGame returns the next available game
+// getNextID returns the next available gameID
+func getNextID() int {
+	gameCounter++
+	return gameCounter
+}
+
+// GetGame returns the next available game. If no games are waiting to start; create a new one.
 func GetGame() *Game {
 	var game *Game
 	if len(AvailableGames) != 0 {
+		// game is availabe in queue; remove it from the queue and return it
 		game = AvailableGames[0]
 		AvailableGames = AvailableGames[1:]
 	} else {
-		game = NewGame()
+		// game is availabe in queue; create a new one and add it to the queue
+		game = createGame()
 		AvailableGames = append(AvailableGames, game)
 	}
 
 	return game
 }
 
-// NewGame initalizes a new game with the next available gameID
-func NewGame() *Game {
+// createGame initalizes a new game with the next available gameID
+func createGame() *Game {
+	// create a websocket pool and
 	pool := websocket.NewPool()
 	go pool.Start()
 
@@ -48,12 +59,6 @@ func NewGame() *Game {
 		GameID: getNextID(),
 		Pool:   pool,
 	}
-}
-
-// getNextID returns the next available gameID
-func getNextID() int {
-	gameCounter++
-	return gameCounter
 }
 
 // Join the game
