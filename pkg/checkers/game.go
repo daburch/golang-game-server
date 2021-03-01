@@ -100,8 +100,7 @@ func (game *Game) Join(ws *gorilla.Conn) {
 	// listen for messages
 	client.Read()
 
-	game.Pool.Unregister <- client
-
+	// client.Read returning indicates the websocket has closed. remove the player from the game
 	if game.Player1 == client {
 		log.WithFields(log.Fields{
 			"gameID": game.GameID,
@@ -136,7 +135,6 @@ func (game *Game) Start() {
 }
 
 func assignColor(player *websocket.Client, color string) {
-	p := fmt.Sprintf(`{ "action": "assignColor", "color": "%s" }`, color)
-	message := websocket.Message{Type: 1, Body: string(p)}
-	player.Conn.WriteJSON(message)
+	p := fmt.Sprintf("{ \"action\": \"assignColor\", \"color\": \"%s\" }", color)
+	player.Conn.WriteMessage(1, []byte(p))
 }
